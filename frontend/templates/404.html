@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Not found</h1>
+<p class="muted">That list or movie doesn't exist (maybe it got deleted).</p>
+<a href="{{ url_for('index') }}">&larr; Back to my lists</a>
+{% endblock %}

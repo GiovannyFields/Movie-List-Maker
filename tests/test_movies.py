@@ -64,6 +64,13 @@ def test_rating_over_10_fails(client, horror_list):
     assert response.status_code == 422
 
 
+def test_cant_blank_out_title(client, horror_list):
+    movie = add_movie(client, horror_list["id"]).json()
+    response = client.patch(f"/movies/{movie['id']}", json={"title": None})
+    assert response.status_code == 422
+    assert client.get(f"/movies/{movie['id']}").json()["title"] == "Get Out"
+
+
 # DELETE
 def test_delete_movie(client, horror_list):
     movie = add_movie(client, horror_list["id"]).json()

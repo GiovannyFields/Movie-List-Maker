@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{# same form for making a new list and editing one. if movie_list has an id, we're editing #}
+{% set editing = movie_list and movie_list.id %}
+
+{% block content %}
+<h1>{{ "Edit List" if editing else "New List" }}</h1>
+
+<form method="post" class="form">
+  <label>Name
+    <input name="name" value="{{ movie_list.name if movie_list and movie_list.name else '' }}" required maxlength="100">
+  </label>
+  <label>Description
+    <textarea name="description" maxlength="500" rows="3">{{ movie_list.description if movie_list and movie_list.description else '' }}</textarea>
+  </label>
+  <div class="actions">
+    <button type="submit" class="btn">{{ "Save" if editing else "Create List" }}</button>
+    <a href="{{ url_for('list_detail', list_id=movie_list.id) if editing else url_for('index') }}">Cancel</a>
+  </div>
+</form>
+{% endblock %}

@@ -1,4 +1,13 @@
+from pydantic import field_validator
 from sqlmodel import Field, Relationship, SQLModel
+
+
+# for PATCH, leaving a field out is fine, but sending null for a required one
+# (like name or title) would leave a list/movie with no name, so block it
+def not_null(value):
+    if value is None:
+        raise ValueError("can't be empty")
+    return value
 
 # ---------- Lists ----------
 
@@ -30,6 +39,8 @@ class MovieListRead(MovieListBase):
 class MovieListUpdate(SQLModel):
     name: str | None = Field(default=None, min_length=1, max_length=100)
     description: str | None = Field(default=None, max_length=500)
+
+    _name_not_null = field_validator("name")(not_null)
 
 
 # ---------- Movies (each one belongs to a list) ----------
@@ -67,6 +78,8 @@ class MovieUpdate(SQLModel):
     overview: str | None = Field(default=None, max_length=500)
     rating: int | None = Field(default=None, ge=1, le=10)
     watched: bool | None = None
+
+    _title_not_null = field_validator("title", "watched")(not_null)
 
 
 # ---------- Suggestions (not a table, just the shape the API sends back) ----------

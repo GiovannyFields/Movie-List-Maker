@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}{{ movie.title }}{% endblock %}
+
+{% block content %}
+<a href="{{ url_for('list_detail', list_id=movie_list.id) }}" class="back">&larr; {{ movie_list.name }}</a>
+
+<div class="page-head">
+  <h1>{{ movie.title }} {% if movie.year %}<span class="muted">({{ movie.year }})</span>{% endif %}</h1>
+  <div class="actions">
+    <a href="{{ url_for('edit_movie', movie_id=movie.id) }}" class="btn secondary">Edit</a>
+    <form method="post" action="{{ url_for('delete_movie', movie_id=movie.id) }}"
+          onsubmit="return confirm('Remove this movie?')">
+      <button class="btn danger">Remove</button>
+    </form>
+  </div>
+</div>
+
+<dl class="details">
+  <dt>Genre</dt><dd>{{ movie.genre or "-" }}</dd>
+  <dt>Rating</dt><dd>{{ movie.rating ~ "/10" if movie.rating else "Not rated" }}</dd>
+  <dt>Watched</dt><dd>{{ "Yes" if movie.watched else "Not yet" }}</dd>
+  <dt>About</dt><dd>{{ movie.overview or "-" }}</dd>
+</dl>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-head">
+  <h1>My Lists</h1>
+  <a href="{{ url_for('new_list') }}" class="btn">+ New List</a>
+</div>
+
+{% if lists %}
+  <table>
+    <thead>
+      <tr><th>Name</th><th>Description</th></tr>
+    </thead>
+    <tbody>
+      {% for lst in lists %}
+        <tr>
+          <td><a href="{{ url_for('list_detail', list_id=lst.id) }}">{{ lst.name }}</a></td>
+          <td class="muted">{{ lst.description or "" }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <p class="empty">No lists yet. Make one to get started.</p>
+{% endif %}
+{% endblock %}
