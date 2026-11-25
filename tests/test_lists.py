@@ -52,10 +52,14 @@ def test_update_list(client, horror_list):
     assert response.status_code == 200
     data = response.json()
     assert data["name"] == "Saturday Horror Night"
-    assert data["description"] == "scary stuff"  # didn't send this, so it shouldn't change
+    # didn't send this, so it shouldn't change
+    assert data["description"] == "scary stuff"
 
     # make sure it actually saved, not just came back in the response
-    assert client.get(f"/lists/{horror_list['id']}").json()["name"] == "Saturday Horror Night"
+    assert (
+        client.get(f"/lists/{horror_list['id']}").json()["name"]
+        == "Saturday Horror Night"
+    )
 
 
 # DELETE

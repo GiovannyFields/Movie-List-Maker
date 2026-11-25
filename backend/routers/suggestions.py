@@ -1,7 +1,7 @@
-from fastapi import APIRouter, Depends, HTTPException
-from sqlmodel import Session, select
+from fastapi import APIRouter, HTTPException
+from sqlmodel import select
 
-from backend.database import get_session
+from backend.database import SessionDep
 from backend.models import Movie, MovieList, Suggestion
 from backend.suggestion_data import SUGGESTIONS
 
@@ -12,9 +12,7 @@ router = APIRouter(tags=["suggestions"])
 # so the Discover page never shows you something you already added.
 # ?genre=Horror is optional if you only want one genre.
 @router.get("/lists/{list_id}/suggestions", response_model=list[Suggestion])
-def get_suggestions(
-    list_id: int, genre: str | None = None, session: Session = Depends(get_session)
-):
+def get_suggestions(list_id: int, session: SessionDep, genre: str | None = None):
     if not session.get(MovieList, list_id):
         raise HTTPException(status_code=404, detail="List not found")
 

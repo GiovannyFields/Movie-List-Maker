@@ -9,6 +9,7 @@ def not_null(value):
         raise ValueError("can't be empty")
     return value
 
+
 # ---------- Lists ----------
 
 
@@ -22,7 +23,9 @@ class MovieListBase(SQLModel):
 class MovieList(MovieListBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
     # cascade_delete means deleting a list also deletes the movies in it
-    movies: list["Movie"] = Relationship(back_populates="movie_list", cascade_delete=True)
+    movies: list["Movie"] = Relationship(
+        back_populates="movie_list", cascade_delete=True
+    )
 
 
 # what the API expects when you create a list (no id, the db makes that)

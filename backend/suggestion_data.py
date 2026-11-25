@@ -2,6 +2,7 @@
 # it's just a python list, not a db table, since nobody edits it from the app.
 # to add more, copy a line and change it.
 
+# fmt: off
 SUGGESTIONS = [
     # Horror
     {"title": "Get Out", "year": 2017, "genre": "Horror", "overview": "A weekend visit to meet his girlfriend's parents gets stranger by the hour."},
@@ -52,3 +53,4 @@ SUGGESTIONS = [
     {"title": "About Time", "year": 2013, "genre": "Romance", "overview": "A guy who can time travel uses it to try to get his love life right."},
     {"title": "Crazy Rich Asians", "year": 2018, "genre": "Romance", "overview": "She finds out her boyfriend's family is extremely rich, and not thrilled about her."},
 ]
+# fmt: on

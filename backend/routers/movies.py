@@ -1,7 +1,7 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, HTTPException
 from sqlmodel import Session, select
 
-from backend.database import get_session
+from backend.database import SessionDep
 from backend.models import Movie, MovieCreate, MovieList, MovieRead, MovieUpdate
 
 router = APIRouter(tags=["movies"])
@@ -19,7 +19,7 @@ def get_movie_or_404(movie_id: int, session: Session) -> Movie:
 
 # CREATE (add a movie to a list)
 @router.post("/lists/{list_id}/movies", response_model=MovieRead, status_code=201)
-def add_movie(list_id: int, new_movie: MovieCreate, session: Session = Depends(get_session)):
+def add_movie(list_id: int, new_movie: MovieCreate, session: SessionDep):
     if not session.get(MovieList, list_id):
         raise HTTPException(status_code=404, detail="List not found")
     movie = Movie.model_validate(new_movie, update={"list_id": list_id})
@@ -31,7 +31,7 @@ def add_movie(list_id: int, new_movie: MovieCreate, session: Session = Depends(g
 
 # READ ALL (every movie in one list)
 @router.get("/lists/{list_id}/movies", response_model=list[MovieRead])
-def get_movies(list_id: int, session: Session = Depends(get_session)):
+def get_movies(list_id: int, session: SessionDep):
     if not session.get(MovieList, list_id):
         raise HTTPException(status_code=404, detail="List not found")
     return session.exec(select(Movie).where(Movie.list_id == list_id)).all()
@@ -39,13 +39,13 @@ def get_movies(list_id: int, session: Session = Depends(get_session)):
 
 # READ ONE
 @router.get("/movies/{movie_id}", response_model=MovieRead)
-def get_movie(movie_id: int, session: Session = Depends(get_session)):
+def get_movie(movie_id: int, session: SessionDep):
     return get_movie_or_404(movie_id, session)
 
 
 # UPDATE (like marking it watched or giving it a rating)
 @router.patch("/movies/{movie_id}", response_model=MovieRead)
-def update_movie(movie_id: int, changes: MovieUpdate, session: Session = Depends(get_session)):
+def update_movie(movie_id: int, changes: MovieUpdate, session: SessionDep):
     movie = get_movie_or_404(movie_id, session)
     movie.sqlmodel_update(changes.model_dump(exclude_unset=True))
     session.add(movie)
@@ -56,7 +56,7 @@ def update_movie(movie_id: int, changes: MovieUpdate, session: Session = Depends
 
 # DELETE
 @router.delete("/movies/{movie_id}", status_code=204)
-def delete_movie(movie_id: int, session: Session = Depends(get_session)):
+def delete_movie(movie_id: int, session: SessionDep):
     movie = get_movie_or_404(movie_id, session)
     session.delete(movie)
     session.commit()

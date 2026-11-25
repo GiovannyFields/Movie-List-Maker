@@ -3,7 +3,8 @@ from flask import Flask, abort, flash, redirect, render_template, request, url_f
 from frontend import api
 
 app = Flask(__name__)
-app.secret_key = "dev"  # flash() needs this. fine for a class project, not for a real site
+# flash() needs this. fine for a class project, not for a real site
+app.secret_key = "dev"
 
 
 # HTML forms can only send GET or POST. so the form POSTs to flask,
@@ -50,7 +51,7 @@ def new_list():
         data = clean_form(request.form, ["name", "description"])
         response = api.post("/lists", data)
         if response.status_code == 201:
-            flash(f"Made \"{data['name']}\"")
+            flash(f'Made "{data["name"]}"')
             return redirect(url_for("list_detail", list_id=response.json()["id"]))
         for msg in api.error_messages(response):
             flash(msg, "error")
@@ -98,7 +99,7 @@ def new_movie(list_id):
         data = movie_form_data(request.form)
         response = api.post(f"/lists/{list_id}/movies", data)
         if response.status_code == 201:
-            flash(f"Added \"{data['title']}\"")
+            flash(f'Added "{data["title"]}"')
             return redirect(url_for("list_detail", list_id=list_id))
         for msg in api.error_messages(response):
             flash(msg, "error")
@@ -141,7 +142,7 @@ def toggle_watched(movie_id):
 def delete_movie(movie_id):
     movie = check_found(api.get(f"/movies/{movie_id}"))
     api.delete(f"/movies/{movie_id}")
-    flash(f"Removed \"{movie['title']}\"")
+    flash(f'Removed "{movie["title"]}"')
     return redirect(url_for("list_detail", list_id=movie["list_id"]))
 
 
@@ -173,7 +174,7 @@ def discover_add(list_id):
     data = clean_form(request.form, ["title", "year", "genre", "overview"])
     data["year"] = int(data["year"])
     api.post(f"/lists/{list_id}/movies", data)
-    flash(f"Added \"{data['title']}\"")
+    flash(f'Added "{data["title"]}"')
     return redirect(
         url_for(
             "discover",

@@ -49,7 +49,9 @@ def test_get_one_movie(client, horror_list):
 def test_mark_movie_watched_and_rate_it(client, horror_list):
     movie = add_movie(client, horror_list["id"]).json()
 
-    response = client.patch(f"/movies/{movie['id']}", json={"watched": True, "rating": 9})
+    response = client.patch(
+        f"/movies/{movie['id']}", json={"watched": True, "rating": 9}
+    )
 
     assert response.status_code == 200
     data = response.json()
