@@ -21,7 +21,10 @@
 
 <div class="page-head">
   <h2>Movies ({{ movies|length }})</h2>
-  <a href="{{ url_for('new_movie', list_id=movie_list.id) }}" class="btn secondary">+ Add Movie</a>
+  <div class="actions">
+    <a href="{{ url_for('discover', list_id=movie_list.id) }}" class="btn">Discover</a>
+    <a href="{{ url_for('new_movie', list_id=movie_list.id) }}" class="btn secondary">+ Add Movie</a>
+  </div>
 </div>
 
 {% if movies %}

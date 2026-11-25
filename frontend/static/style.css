@@ -139,6 +139,17 @@ input:focus, textarea:focus, select:focus { outline: 2px solid var(--accent); bo
 .details dt { color: var(--muted); }
 .details dd { margin: 0; }
 
+/* ---- discover ---- */
+.card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  max-width: 420px;
+  margin: 0 auto;
+}
+.swipe { justify-content: center; text-align: center; margin-top: 16px; }
+
 /* ---- flash messages ---- */
 .flash {
   padding: 10px 14px;

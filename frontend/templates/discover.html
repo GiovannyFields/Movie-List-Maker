@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Discover{% endblock %}
+
+{% block content %}
+<a href="{{ url_for('list_detail', list_id=movie_list.id) }}" class="back">&larr; {{ movie_list.name }}</a>
+
+<div class="page-head">
+  <h1>Discover</h1>
+  <form method="get">
+    <select name="genre" onchange="this.form.submit()">
+      <option value="">All genres</option>
+      {% for g in genres %}
+        <option {{ "selected" if g == genre }}>{{ g }}</option>
+      {% endfor %}
+    </select>
+  </form>
+</div>
+
+{% if movie %}
+  <div class="card">
+    <h2>{{ movie.title }}</h2>
+    <p class="muted">{{ movie.year }} &middot; {{ movie.genre }}</p>
+    <p>{{ movie.overview }}</p>
+  </div>
+
+  <div class="actions swipe">
+    <a id="skip" href="{{ url_for('discover', list_id=movie_list.id, genre=genre, skip=skip + 1) }}" class="btn secondary">&larr; Skip</a>
+    <form method="post" action="{{ url_for('discover_add', list_id=movie_list.id) }}">
+      <input type="hidden" name="title" value="{{ movie.title }}">
+      <input type="hidden" name="year" value="{{ movie.year }}">
+      <input type="hidden" name="genre" value="{{ movie.genre }}">
+      <input type="hidden" name="overview" value="{{ movie.overview }}">
+      <input type="hidden" name="filter" value="{{ genre }}">
+      <input type="hidden" name="skip" value="{{ skip }}">
+      <button id="add" class="btn">Add &rarr;</button>
+    </form>
+  </div>
+  <p class="muted swipe">Use the arrow keys: left to skip, right to add.</p>
+
+  <script>
+    document.addEventListener("keydown", function (e) {
+      if (e.target.tagName === "SELECT") return;
+      if (e.key === "ArrowLeft") document.getElementById("skip").click();
+      if (e.key === "ArrowRight") document.getElementById("add").click();
+    });
+  </script>
+{% else %}
+  <p class="empty">No more movies to show.
+    {% if skip %}<a href="{{ url_for('discover', list_id=movie_list.id, genre=genre) }}">Start over</a>{% endif %}
+  </p>
+{% endif %}
+{% endblock %}

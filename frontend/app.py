@@ -145,6 +145,45 @@ def delete_movie(movie_id):
     return redirect(url_for("list_detail", list_id=movie["list_id"]))
 
 
+# ---------- Discover ----------
+
+
+# shows one suggestion at a time. skip is how many you've passed on
+@app.route("/lists/<int:list_id>/discover")
+def discover(list_id):
+    movie_list = check_found(api.get(f"/lists/{list_id}"))
+    genre = request.args.get("genre", "")
+    skip = request.args.get("skip", 0, type=int)
+    suggestions = api.get(f"/lists/{list_id}/suggestions", genre=genre or None).json()
+    genres = api.get("/genres").json()
+    movie = suggestions[skip] if skip < len(suggestions) else None
+    return render_template(
+        "discover.html",
+        movie_list=movie_list,
+        movie=movie,
+        genres=genres,
+        genre=genre,
+        skip=skip,
+    )
+
+
+# skip stays the same after adding because the added movie drops out of the suggestions
+@app.route("/lists/<int:list_id>/discover/add", methods=["POST"])
+def discover_add(list_id):
+    data = clean_form(request.form, ["title", "year", "genre", "overview"])
+    data["year"] = int(data["year"])
+    api.post(f"/lists/{list_id}/movies", data)
+    flash(f"Added \"{data['title']}\"")
+    return redirect(
+        url_for(
+            "discover",
+            list_id=list_id,
+            genre=request.form.get("filter"),
+            skip=request.form.get("skip"),
+        )
+    )
+
+
 @app.errorhandler(404)
 def not_found(e):
     return render_template("404.html"), 404
