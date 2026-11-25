@@ -1,164 +1,213 @@
-/* dark movie-theater look */
-:root {
-  --bg: #14141a;
-  --panel: #1e1e27;
-  --border: #2e2e3a;
-  --text: #ececf1;
-  --muted: #9a9aab;
-  --accent: #e5b23c;   /* popcorn yellow */
-  --danger: #e0565b;
-}
-
-* { box-sizing: border-box; }
-
 body {
   margin: 0;
-  background: var(--bg);
-  color: var(--text);
-  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
-  line-height: 1.5;
+  background: #181818;
+  color: #eee;
+  font-family: Arial, sans-serif;
 }
 
 header {
-  padding: 16px 24px;
-  border-bottom: 1px solid var(--border);
+  background: linear-gradient(to right, #7b1010, #0f0f0f);
+  padding: 18px 20px;
 }
 
 .logo {
-  color: var(--accent);
-  font-weight: 700;
-  font-size: 1.2rem;
+  color: white;
+  font-size: 22px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  text-transform: uppercase;
   text-decoration: none;
 }
 
-main {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 24px 16px 64px;
+h1 {
+  border-left: 5px solid #c0392b;
+  padding-left: 10px;
 }
 
-h1, h2 { margin: 0 0 4px; }
-a { color: var(--accent); }
-.muted { color: var(--muted); }
-.empty { color: var(--muted); padding: 24px 0; }
-.back { display: inline-block; margin-bottom: 12px; text-decoration: none; }
+main {
+  max-width: 850px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+a {
+  color: #e74c3c;
+}
+
+.muted {
+  color: #999;
+}
+
+.empty {
+  color: #999;
+  padding: 20px 0;
+}
+
+.back {
+  display: inline-block;
+  margin-bottom: 10px;
+}
 
 .page-head {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 12px;
   flex-wrap: wrap;
-  margin: 8px 0 20px;
+  margin-bottom: 15px;
 }
 
-/* ---- buttons ---- */
+.actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+form {
+  margin: 0;
+}
+
 .btn {
   display: inline-block;
-  background: var(--accent);
-  color: #1a1a1a;
+  background: #c0392b;
+  color: white;
   border: none;
-  border-radius: 6px;
+  border-radius: 4px;
   padding: 8px 14px;
-  font: inherit;
-  font-weight: 600;
+  font-size: 14px;
   text-decoration: none;
   cursor: pointer;
 }
-.btn.secondary { background: var(--panel); color: var(--text); border: 1px solid var(--border); }
-.btn.danger { background: transparent; color: var(--danger); border: 1px solid var(--danger); }
-.btn:hover { filter: brightness(1.1); }
+
+.btn:hover {
+  opacity: 0.85;
+}
+
+.btn.secondary {
+  background: #333;
+}
+
+.btn.danger {
+  background: #555;
+}
 
 .link-btn {
   background: none;
   border: none;
-  color: var(--muted);
-  font: inherit;
+  color: #999;
   cursor: pointer;
 }
-.link-btn:hover { color: var(--danger); }
 
-.actions { display: flex; gap: 10px; align-items: center; }
-.actions form { margin: 0; }
-
-/* the watched checkbox in the table */
 .check {
-  width: 24px;
-  height: 24px;
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  background: var(--panel);
-  color: #1a1a1a;
+  width: 22px;
+  height: 22px;
+  border: 1px solid #555;
+  background: #222;
+  color: white;
   cursor: pointer;
 }
-.check.on { background: var(--accent); border-color: var(--accent); font-weight: 700; }
 
-/* ---- tables ---- */
+.check.on {
+  background: #27ae60;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
-  background: var(--panel);
-  border-radius: 8px;
-  overflow: hidden;
+  background: #222;
 }
+
 th, td {
   text-align: left;
-  padding: 10px 12px;
-  border-bottom: 1px solid var(--border);
+  padding: 10px;
+  border-bottom: 1px solid #333;
 }
-th { color: var(--muted); font-weight: 500; font-size: 0.9rem; }
-tr:last-child td { border-bottom: none; }
-td form { margin: 0; }
 
-/* ---- forms ---- */
-.form { display: flex; flex-direction: column; gap: 14px; max-width: 560px; }
-.form label { display: flex; flex-direction: column; gap: 4px; color: var(--muted); }
-.form label.inline { flex-direction: row; align-items: center; gap: 8px; color: var(--text); }
-.form .row { display: flex; gap: 12px; flex-wrap: wrap; }
-.form .row label { flex: 1; min-width: 120px; }
+th {
+  background: #2a2a2a;
+  color: #bbb;
+}
+
+tbody tr:hover {
+  background: #2c2020;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 500px;
+}
+
+.form label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.form label.inline {
+  flex-direction: row;
+  align-items: center;
+}
+
+.form .row {
+  display: flex;
+  gap: 10px;
+}
 
 input, textarea, select {
-  background: var(--panel);
-  color: var(--text);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 8px 10px;
-  font: inherit;
+  padding: 6px;
+  background: #222;
+  color: #eee;
+  border: 1px solid #444;
+  border-radius: 4px;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
 }
-input:focus, textarea:focus, select:focus { outline: 2px solid var(--accent); border-color: transparent; }
 
-/* ---- movie details ---- */
 .details {
   display: grid;
   grid-template-columns: 100px 1fr;
-  gap: 10px 16px;
-  background: var(--panel);
-  padding: 16px;
-  border-radius: 8px;
+  gap: 10px;
+  background: #222;
+  padding: 15px;
 }
-.details dt { color: var(--muted); }
-.details dd { margin: 0; }
 
-/* ---- discover ---- */
-.card {
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 24px;
-  max-width: 420px;
-  margin: 0 auto;
+.details dd {
+  margin: 0;
 }
-.swipe { justify-content: center; text-align: center; margin-top: 16px; }
 
-/* ---- flash messages ---- */
 .flash {
-  padding: 10px 14px;
-  border-radius: 6px;
-  background: #24324a;
-  margin: 0 0 12px;
+  background: #1e3a2a;
+  padding: 10px;
 }
-.flash.error { background: #4a2426; }
 
-@media (max-width: 600px) {
-  th:nth-child(3), td:nth-child(3) { display: none; }  /* hide genre on small screens */
+.flash.error {
+  background: #4a1f1f;
+}
+
+/* discover card */
+.card {
+  background: linear-gradient(#2a1a1a, #1f1f1f);
+  border-top: 4px solid #c0392b;
+  border-radius: 10px;
+  padding: 30px 25px;
+  max-width: 400px;
+  margin: 0 auto;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+}
+
+.card h2 {
+  font-size: 28px;
+  margin-top: 0;
+}
+
+.swipe {
+  justify-content: center;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.swipe .btn {
+  padding: 12px 24px;
+  font-size: 16px;
 }
